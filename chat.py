@@ -1,3 +1,4 @@
+pip install git+git://github.com/gunthercox/ChatterBot.git@maste
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 
