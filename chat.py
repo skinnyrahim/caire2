@@ -1,26 +1,16 @@
-pip install git+git://github.com/gunthercox/ChatterBot.git@maste
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
+import json
 
-# Create a new chatbot instance
-chatbot = ChatBot('MyChatbot')
+# Load the chatbot data from a JSON file
+with open('chatbot_data.json', 'r') as file:
+    chatbot_data = json.load(file)
 
-# Train the chatbot with some sample conversations
-trainer = ListTrainer(chatbot)
-trainer.train([
-    'Hello',
-    'Hi there!',
-    'How are you?',
-    'I\'m doing great.',
-    'That is good to hear.',
-    'Thank you',
-    'You\'re welcome.'
-])
-
-# Function to get a response from the chatbot
+# Define a function to get a response from the chatbot
 def get_chatbot_response(user_message):
-    # Get the chatbot's response to the user's message
-    bot_response = chatbot.get_response(user_message)
-    
-    # Return the bot response
-    return str(bot_response)
+    # Check if the user's message is in the chatbot data
+    if user_message in chatbot_data:
+        # If so, return the corresponding response
+        return chatbot_data[user_message]
+    else:
+        # If not, return a default response
+        return 'I\'m sorry, I didn\'t understand that.'
+
