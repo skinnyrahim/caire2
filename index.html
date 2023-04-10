@@ -5,35 +5,41 @@
     <title>Chatbot Example</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      function send_message() {
-        // Get the user's message from the input element
-        var user_message = $('#user-message').val();
-        
-        // Clear the input element
-        $('#user-message').val('');
-        
-        // Send an AJAX request to the server to get the chatbot's response
-        $.ajax({
-          url: 'chat.py',
-          method: 'POST',
-          data: { user_message: user_message },
-          dataType: 'json',
-          success: function(response) {
-            // Display the chatbot's response in the chat log
-            $('#chat-log').append('<div class="bot-message">' + response.bot_response + '</div>');
-          }
+      $(document).ready(function() {
+        // Handle form submission
+        $('form').submit(function(event) {
+          // Prevent the form from submitting normally
+          event.preventDefault();
+          
+          // Get the user's message from the input field
+          var user_message = $('#user-message').val();
+          
+          // Clear the input field
+          $('#user-message').val('');
+          
+          // Send an AJAX request to the server
+          $.ajax({
+            url: 'chatbot.py',
+            method: 'POST',
+            data: { user_message: user_message },
+            dataType: 'text',
+            success: function(response) {
+              // Display the chatbot's response in the HTML page
+              $('#chat-log').append('<p><strong>You:</strong> ' + user_message + '</p>');
+              $('#chat-log').append('<p><strong>Chatbot:</strong> ' + response + '</p>');
+            }
+          });
         });
-      }
+      });
     </script>
-    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="chat-window">
-      <div id="chat-log"></div>
-      <div id="user-input">
-        <input type="text" id="user-message" placeholder="Type your message...">
-        <button type="button" onclick="send_message()">Send</button>
-      </div>
-    </div>
+    <h1>Chatbot Example</h1>
+    <div id="chat-log"></div>
+    <form>
+      <label for="user-message">Enter your message:</label>
+      <input type="text" id="user-message" name="user_message">
+      <button type="submit">Send</button>
+    </form>
   </body>
 </html>
